@@ -1,0 +1,37 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5003"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/CarsCatalog",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/CarsCatalog/GetCars",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6055
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/CarsDetails",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/CarsDetails",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7637
+        }
+      ]
+    }
+  ],
+  "RateLimitOptions": {
+    "EnableRateLimiting": true,
+    "Period": "10s",
+    "PeriodTimespan": 10,
+    "Limit": 3
+  }
+}
