@@ -1,4 +1,6 @@
-﻿using CarsCatalog.Api.Models;
+﻿using CarsCatalog.Api.Args;
+using CarsCatalog.Api.Managers;
+using CarsCatalog.Api.Models;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +15,21 @@ namespace CarsCatalog.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IAuthManager _authManager;
+
+        public AuthController(IAuthManager authManager)
+        {
+            _authManager = authManager;
+        }
+
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginModel user)
+        public IActionResult Login([FromBody]AuthenticationArgs user)
         {
             if (user is null)
             {
                 return BadRequest("Invalid client request");
             }
-            if (user.UserName == "string" && user.Password == "string")
+            if (_authManager.AuthenticateUser(user))
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@NetBet"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);

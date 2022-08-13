@@ -1,6 +1,6 @@
-﻿namespace CarsCatalog.Api.Models
+﻿namespace CarsCatalog.Api.Args
 {
-    public class LoginModel
+    public class AuthenticationArgs
     {
         public string? UserName { get; set; }
         public string? Password { get; set; }

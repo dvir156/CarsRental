@@ -1,5 +1,6 @@
 using AutoMapper;
 using CarsCatalog.Api.Base;
+using CarsCatalog.Api.Managers;
 using CarsCatalog.Api.Models;
 using CarsCatalog.Managers;
 using CarsCatalog.Models;
@@ -84,6 +85,8 @@ builder.Services.AddSingleton<ICarsCatalogRepository, CarsCatalogRepository>();
 builder.Services.AddSingleton<IDriverAgeValidator, DriverAgeValidator>();
 builder.Services.AddSingleton<IRentDatesValidator, RentDatesValidator>();
 builder.Services.AddSingleton<ICarsCatalogManager, CarsCatalogManager>();
+builder.Services.AddSingleton<IAuthManager, AuthManager>();
+
 
 var app = builder.Build();
 

@@ -2,5 +2,5 @@
 
 namespace CarsCatalog.Api.Models
 {
-    public record CarDto(int MinimumDriverAge, IEnumerable<CarRentDates>? RentDates, IEnumerable<Location>? AvailableLocations);
+    public record CarDto(int? MinimumDriverAge, IEnumerable<CarRentDates>? RentDates, IEnumerable<Location>? AvailableLocations);
 }

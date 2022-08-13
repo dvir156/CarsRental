@@ -45,12 +45,39 @@ namespace CarsCatalog.Managers
             try
             {
                 var carModel = _mapper.Map<Car>(car);
-                await _carsCatalogRepository.AddCarAsync(carModel);
+
+                if (IsCarValid(carModel))
+                {
+                    await _carsCatalogRepository.AddCarAsync(carModel);
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogInformation($"{DateTime.Now.ToShortTimeString()} : Exception at adding car - {ex}");
             }
+        }
+
+        private bool IsCarValid(Car car)
+        {
+            var result = true;
+
+            if (car.RentDates != null)
+            {
+                foreach (var rentDate in car.RentDates)
+                {
+                    if(!_rentDatesValidator.Validate(rentDate.StartDate, rentDate.EndDate))
+                    {
+                        return false;  
+                    }
+                }
+            }
+
+            if (car.MinimumDriverAge != null)
+            {
+                result = _driverAgeValidator.Validate(car.MinimumDriverAge);
+            }
+
+            return result;
         }
 
         public async Task RemoveCarAsync(int carId)
@@ -69,7 +96,10 @@ namespace CarsCatalog.Managers
         {
             try
             {
-                await _carsCatalogRepository.UpdateCarAsync(car);
+                if (IsCarValid(car))
+                {
+                    await _carsCatalogRepository.UpdateCarAsync(car);
+                }
             }
             catch (Exception ex)
             {
